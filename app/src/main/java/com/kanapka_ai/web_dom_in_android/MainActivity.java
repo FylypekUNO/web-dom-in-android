@@ -5,6 +5,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.kanapka_ai.web_dom_in_android.dom.DOMText;
 import com.kanapka_ai.web_dom_in_android.dom.DOMView;
 
 public class MainActivity extends AppCompatActivity {
@@ -13,7 +14,12 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     
-    View domView = new DOMView(this);
+    View domView = new DOMView(this, new DOMView[] {
+      new DOMView(this, new DOMView[] {
+        new DOMText(this, "Hello, ", "display: inline;"),
+        new DOMText(this, "world!", "display: inline;")
+      })
+    });
     
     setContentView(domView);
     
