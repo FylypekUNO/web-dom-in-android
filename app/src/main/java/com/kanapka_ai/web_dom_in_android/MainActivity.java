@@ -1,9 +1,11 @@
 package com.kanapka_ai.web_dom_in_android;
 
 import android.os.Bundle;
-import android.widget.TextView;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.kanapka_ai.web_dom_in_android.dom.DOMView;
 
 public class MainActivity extends AppCompatActivity {
   
@@ -11,9 +13,9 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     
-    TextView testView = new TextView(this);
-    testView.setText("Hello, World!");
+    View domView = new DOMView(this);
     
-    setContentView(testView);
+    setContentView(domView);
+    
   }
 }
