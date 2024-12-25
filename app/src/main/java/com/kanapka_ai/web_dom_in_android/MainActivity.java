@@ -1,8 +1,25 @@
 package com.kanapka_ai.web_dom_in_android;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.PorterDuff;
+import android.graphics.Shader;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.Gravity;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.google.android.material.button.MaterialButton;
 
 public class MainActivity extends AppCompatActivity {
   
@@ -18,7 +35,8 @@ public class MainActivity extends AppCompatActivity {
       <div class="flex justify-between w-full">
         <a
           href="/"
-          class="font-bold bg-gradient-to-r from-start-prim to-end-prim bg-clip-text text-transparent
+          class="font-bold bg-gradient-to-r from-start-prim to-end-prim bg-clip-text
+          text-transparent
            text-4xl md:text-5xl"
         >
           Kanapka AI
@@ -180,5 +198,88 @@ public class MainActivity extends AppCompatActivity {
     
     */
     
+    // Create main container (nav)
+    ConstraintLayout mainLayout = new ConstraintLayout(this);
+    ConstraintLayout.LayoutParams mainParams = new ConstraintLayout.LayoutParams(
+      ConstraintLayout.LayoutParams.MATCH_PARENT,
+      ConstraintLayout.LayoutParams.WRAP_CONTENT
+    );
+    
+    // Set margins (my-4 mx-4)
+    int margin16dp = (int) (16 * getResources().getDisplayMetrics().density);
+    mainParams.setMargins(margin16dp, margin16dp, margin16dp, margin16dp);
+    mainLayout.setLayoutParams(mainParams);
+    
+    // Create logo text (Kanapka AI)
+    TextView logoText = new TextView(this);
+    ConstraintLayout.LayoutParams logoParams = new ConstraintLayout.LayoutParams(
+      ConstraintLayout.LayoutParams.WRAP_CONTENT,
+      ConstraintLayout.LayoutParams.WRAP_CONTENT
+    );
+    logoParams.startToStart = ConstraintLayout.LayoutParams.PARENT_ID;
+    logoParams.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
+    logoParams.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
+    logoText.setLayoutParams(logoParams);
+    logoText.setText("Kanapka AI");
+    logoText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 34); // text-4xl
+    logoText.setTypeface(Typeface.DEFAULT_BOLD);
+    
+    // Create gradient for text
+    int[] colors = {
+      Color.parseColor("#FF0080"),
+      // from-start-prim (example color)
+      Color.parseColor("#7928CA")
+      // to-end-prim (example color)
+    };
+    LinearGradient gradient = new LinearGradient(
+      0f, 0f, logoText.getPaint().measureText("Kanapka AI"), 0f,
+      colors, null, Shader.TileMode.CLAMP
+    );
+    logoText.getPaint().setShader(gradient);
+    
+    // Create button container
+    FrameLayout buttonContainer = new FrameLayout(this);
+    ConstraintLayout.LayoutParams buttonContainerParams = new ConstraintLayout.LayoutParams(
+      (int) (40 * getResources().getDisplayMetrics().density),
+      (int) (40 * getResources().getDisplayMetrics().density)
+    );
+    buttonContainerParams.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID;
+    buttonContainerParams.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
+    buttonContainerParams.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
+    buttonContainer.setLayoutParams(buttonContainerParams);
+    
+    // Create menu button
+    Button menuButton = new Button(this);
+    FrameLayout.LayoutParams menuButtonParams = new FrameLayout.LayoutParams(
+      FrameLayout.LayoutParams.MATCH_PARENT,
+      FrameLayout.LayoutParams.MATCH_PARENT
+    );
+
+    // Style button (p-2 rounded-lg border)
+    menuButton.setLayoutParams(menuButtonParams);
+    menuButton.setBackgroundColor(Color.TRANSPARENT);
+    menuButton.setText("");
+    menuButton.setPadding((int) (8 * getResources().getDisplayMetrics().density), 0, 0, 0);
+
+    // Create a drawable for rounded corners and border programmatically
+    GradientDrawable buttonBackground = new GradientDrawable();
+    buttonBackground.setColor(Color.TRANSPARENT);
+    buttonBackground.setCornerRadius(8 * getResources().getDisplayMetrics().density);
+    buttonBackground.setStroke(1, Color.parseColor("#D1D5DB")); // gray-300
+    menuButton.setBackground(buttonBackground);
+
+    // Create and set hamburger icon
+    Drawable hamburgerIcon = getResources().getDrawable(R.drawable.ic_menu, null);
+    hamburgerIcon.setColorFilter(Color.parseColor("#6B7280"), PorterDuff.Mode.SRC_IN); // text-gray-500
+    menuButton.setCompoundDrawablesWithIntrinsicBounds(hamburgerIcon, null, null, null);
+    menuButton.setCompoundDrawablePadding((int) (8 * getResources().getDisplayMetrics().density));
+    
+    
+    // Assemble the view hierarchy
+    buttonContainer.addView(menuButton);
+    mainLayout.addView(logoText);
+    mainLayout.addView(buttonContainer);
+    
+    setContentView(mainLayout);
   }
 }
