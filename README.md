@@ -2,51 +2,45 @@ Teacher said that the app has to be written in Android Studio, WebView doesn't s
 
 Developing a HTML+CSS renderer (DOM, CSSOM and RenderTree) with basic css support \
 Fully in Android Studio, so no javascript engine, client code will be in Java \
-And because of the need for logic to be written in Java, gonna make it React-like
+And because of the need for logic to be written in Java/Kotlin, gonna make it React-like
 
 The React-like Goal (CSS support means ability to use beloved Tailwind):
-```java
-public class MainPage extends Component {
-  private final List<String> messages;
-  private int messageIndex = 0;
+```kt
+class MainPage(private val messages: List<String>?) : Component() {
+    private var messageIndex = 0
 
-  public MainPage(List<String> messages) {
-    this.messages = messages;
-  }
+    fun onRefreshBtnClick() {
+        if (messages == null || messages.isEmpty()) return
+        messageIndex = (messageIndex + 1) % messages.size
 
-  public void onRefreshBtnClick() {
-    if (messages == null || messages.isEmpty()) return;
-    messageIndex = (messageIndex + 1) % messages.size();
-    
-    refresh(); // full re-render, no optimization for now
-  }
+        refresh() // full re-render, no optimization for now
+    }
 
-  @Override
-  public RendeNode render() {
-    String currentMessage = (messages != null && !messages.isEmpty()) ? messages.get(messageIndex) : null;
+    override fun render(): RenderNode {
+        val currentMessage = if (messages != null && messages.isNotEmpty()) messages[messageIndex] else null
 
-    Component messageNode = currentMessage != null 
-      ? html("<div class='mt-4 text-center text-gray-900'>{}</div>", currentMessage)
-      : null;
+        val messageNode = currentMessage?.let {
+            html("<div class='mt-4 text-center text-gray-900'>{}</div>", it)
+        }
 
-    Component refreshButton = html("""
-      <button class="mt-4 px-4 py-2 bg-blue-500 text-white rounded" onclick={}>Refresh</button>
-    """, this::onRefreshBtnClick);
+        val refreshButton = html("""
+            <button class="mt-4 px-4 py-2 bg-blue-500 text-white rounded" onclick={}>Refresh</button>
+        """, ::onRefreshBtnClick)
 
-    return html("""
-      <div class="inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-        <div class="bg-white p-6 rounded shadow-md w-96">
-          <div class="text-2xl mb-4 text-gray-900">Messages</div>
-          {}
-          {}
-        </div>
-      </div>
-    """, 
-// Passing text/nodes/functions to {} places in string (not in a formatting matter, so that's gonna be a nightmare)
-      messageHtml, 
-      refreshButton 
-    ).render();
-  }
+        return html("""
+            <div class="inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+                <div class="bg-white p-6 rounded shadow-md w-96">
+                    <div class="text-2xl mb-4 text-gray-900">Messages</div>
+                    {}
+                    {}
+                </div>
+            </div>
+        """, 
+            // Passing text/nodes/functions to {} places in string (not in a formatting matter, so that's gonna be a nightmare)
+            messageNode, 
+            refreshButton
+        ).render()
+    }
 }
 ```
 Project is due 14 january \
