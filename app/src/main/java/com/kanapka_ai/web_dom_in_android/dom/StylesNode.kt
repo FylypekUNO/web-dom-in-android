@@ -1,4 +1,4 @@
-package com.kanapka_ai.web_dom_in_android
+package com.kanapka_ai.web_dom_in_android.dom
 
 class StylesNode {
     private var stylesMap: MutableMap<String, String> = mutableMapOf()
