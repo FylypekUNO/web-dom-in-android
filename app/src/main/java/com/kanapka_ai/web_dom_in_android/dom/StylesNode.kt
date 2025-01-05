@@ -16,6 +16,10 @@ class StylesNode {
         childrenMap[key] = value
     }
 
+    fun fetchChild(key: String): StylesNode {
+        return childrenMap.getOrPut(key) { StylesNode() }
+    }
+
     fun getChild(key: String): StylesNode? {
         return childrenMap[key]
     }
