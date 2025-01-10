@@ -2,8 +2,17 @@ package com.kanapka_ai.web_dom_in_android.goal
 
 import android.content.Context
 import android.view.View
+import com.kanapka_ai.web_dom_in_android.dom.Component
+import com.kanapka_ai.web_dom_in_android.dom.Renderable
+import com.kanapka_ai.web_dom_in_android.dom.html
 
 class MessagesComponent(val messages: List<String>): Component() {
+    private var messageIndex = 0
+
+    private fun onRefreshBtnClick() {
+        messageIndex = (messageIndex + 1) % messages.size
+    }
+
     override fun render(): Renderable {
         val currentMessage = if (messages.isNotEmpty()) messages[messageIndex] else null
 
