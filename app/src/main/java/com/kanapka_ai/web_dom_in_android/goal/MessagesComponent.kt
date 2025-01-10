@@ -1,21 +1,11 @@
 package com.kanapka_ai.web_dom_in_android.goal
 
-import com.kanapka_ai.web_dom_in_android.dom.Component
-import com.kanapka_ai.web_dom_in_android.dom.RenderNode
-import com.kanapka_ai.web_dom_in_android.dom.html
+import android.content.Context
+import android.view.View
 
-class MessagesComponent(private val messages: List<String>?) : Component() {
-    private var messageIndex = 0
-
-    fun onRefreshBtnClick() {
-        if (messages.isNullOrEmpty()) return
-        messageIndex = (messageIndex + 1) % messages.size
-
-        refresh() // full re-render, no optimization for now
-    }
-
-    override fun render(): RenderNode {
-        val currentMessage = if (!messages.isNullOrEmpty()) messages[messageIndex] else null
+class MessagesComponent(val messages: List<String>): Component() {
+    override fun render(): Renderable {
+        val currentMessage = if (messages.isNotEmpty()) messages[messageIndex] else null
 
         val messageNode = currentMessage?.let {
             html("<div class='mt-4 text-center text-gray-900'>{}</div>", it)
@@ -37,6 +27,10 @@ class MessagesComponent(private val messages: List<String>?) : Component() {
             // Passing text/nodes/functions to {} places in string (not in a formatting matter, so that's gonna be a nightmare)
             messageNode,
             refreshButton
-        ).render()
+        )
+    }
+
+    override fun nativeRender(context: Context): View {
+        return render().nativeRender(context)
     }
 }
