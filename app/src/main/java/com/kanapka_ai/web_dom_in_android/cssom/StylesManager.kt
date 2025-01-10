@@ -1,4 +1,4 @@
-package com.kanapka_ai.web_dom_in_android.dom
+package com.kanapka_ai.web_dom_in_android.cssom
 
 object StylesManager {
     private var stylesNode: StylesNode = StylesNode()
