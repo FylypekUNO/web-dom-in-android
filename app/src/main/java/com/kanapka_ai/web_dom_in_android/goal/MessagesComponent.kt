@@ -2,8 +2,6 @@ package com.kanapka_ai.web_dom_in_android.goal
 
 import android.content.Context
 import android.view.View
-import com.kanapka_ai.web_dom_in_android.dom.Component
-import com.kanapka_ai.web_dom_in_android.dom.Renderable
 import com.kanapka_ai.web_dom_in_android.dom.html
 
 class MessagesComponent(val messages: List<String>): Component() {
