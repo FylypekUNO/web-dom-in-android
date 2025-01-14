@@ -10,7 +10,7 @@ open class DEndNode {
     var style: String = ""
     var properties: MutableMap<String, Any> = mutableMapOf()
 
-    open var parent: DNode? = null
+    open var parent: DMiddleNode? = null
 
     open fun nativeRender(context: Context): View {
         return View(context)

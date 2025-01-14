@@ -1,8 +1,8 @@
 package com.kanapka_ai.web_dom_in_android.dom
 
-class DNode: DEndNode() {
+class DMiddleNode: DEndNode() {
     private var children: MutableList<DEndNode> = mutableListOf()
-    override var parent: DNode? = null
+    override var parent: DMiddleNode? = null
         set(value) {
             field?.removeChild(this)
             field = value
